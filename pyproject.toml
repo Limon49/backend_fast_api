@@ -1,0 +1,16 @@
+[project]
+name = "aiquest_app"
+version = "0.1.0"
+description = "AIQuest - a small FastAPI learning project"
+readme = "README.md"
+authors = [
+    { name = "limonedutune", email = "limon@edutune.com" }
+]
+requires-python = ">=3.14"
+dependencies = [
+    "fastapi[standard]>=0.115",
+    "uvicorn>=0.30",
+]
+
+[dependency-groups]
+dev = []

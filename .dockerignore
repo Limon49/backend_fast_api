@@ -1,0 +1,10 @@
+# Things Docker doesn't need inside the image
+.venv
+.uv-cache
+__pycache__
+*.pyc
+.git
+.env
+README.md
+Dockerfile
+.dockerignore
