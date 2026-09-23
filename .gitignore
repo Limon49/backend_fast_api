@@ -8,3 +8,21 @@ wheels/
 
 # Virtual environments
 .venv
+env/
+
+# Secrets and local settings (commit .env.example, never .env)
+.env
+
+# Local databases and scratch files
+*.db
+*.sqlite3
+*.log
+
+# Test / tooling caches
+.pytest_cache/
+.ruff_cache/
+.mypy_cache/
+.coverage
+
+# macOS
+.DS_Store

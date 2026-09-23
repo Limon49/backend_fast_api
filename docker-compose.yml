@@ -1,0 +1,50 @@
+# Local "production-style" stack: the API in a container, talking to a MySQL
+# container. Start it with:
+#
+#     docker compose up --build
+#
+# NOTE the MySQL host port: 3307. Your Mac already runs its own MySQL on 3306,
+# so publishing 3306 here would clash. Inside the compose network the API still
+# talks to it on the usual 3306 — the port mapping only affects your Mac.
+
+services:
+  db:
+    image: mysql:8.4
+    environment:
+      MYSQL_ROOT_PASSWORD: root
+      MYSQL_DATABASE: aiquest_db
+      MYSQL_USER: aiquest
+      MYSQL_PASSWORD: aiquest123
+    ports:
+      - "3307:3306"
+    volumes:
+      - mysql_data:/var/lib/mysql
+    healthcheck:
+      test: ["CMD", "mysqladmin", "ping", "-h", "127.0.0.1", "-u", "root", "-proot"]
+      interval: 5s
+      timeout: 5s
+      retries: 20
+
+  api:
+    build: .
+    environment:
+      DB_HOST: db
+      DB_PORT: "3306"
+      DB_USER: aiquest
+      DB_PASSWORD: aiquest123
+      DB_NAME: aiquest_db
+      ENVIRONMENT: production
+      DEBUG: "false"
+      SQL_ECHO: "false"
+      CORS_ORIGINS: "*"
+      # Migrations run automatically on start; set to false for a second
+      # replica, or when your platform runs them as a separate step.
+      RUN_MIGRATIONS: "true"
+    ports:
+      - "8000:8000"
+    depends_on:
+      db:
+        condition: service_healthy
+
+volumes:
+  mysql_data:

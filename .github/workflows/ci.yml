@@ -1,0 +1,28 @@
+name: CI
+
+on:
+  push:
+    branches: [main]
+  pull_request:
+
+jobs:
+  tests:
+    runs-on: ubuntu-latest
+
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Install uv
+        uses: astral-sh/setup-uv@v5
+
+      - name: Install dependencies
+        # --frozen makes CI fail when uv.lock and pyproject.toml disagree
+        run: uv sync --frozen
+
+      - name: Check the app imports
+        run: uv run python -c "import app.main"
+
+      - name: Run the tests
+        # The tests use a throwaway SQLite database, so no MySQL service is
+        # needed here — which is exactly why they are fast.
+        run: uv run pytest

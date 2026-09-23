@@ -1,13 +1,14 @@
 [project]
 name = "aiquest_app"
-version = "0.1.0"
-description = "AIQuest - a small FastAPI learning project"
+version = "0.2.0"
+description = "AIQuest - a small FastAPI learning project (users, products and orders)"
 readme = "README.md"
 authors = [
     { name = "limonedutune", email = "limon@edutune.com" }
 ]
 requires-python = ">=3.14"
 dependencies = [
+    "alembic>=1.20.0",
     "fastapi[standard]>=0.115",
     "pymysql>=1.2.3",
     "sqlmodel>=0.0.22",
@@ -15,4 +16,13 @@ dependencies = [
 ]
 
 [dependency-groups]
-dev = []
+dev = [
+    "pytest>=9.1.1",
+]
+
+[tool.pytest.ini_options]
+# Find the `app` package when pytest runs from the project root.
+pythonpath = ["."]
+testpaths = ["tests"]
+addopts = "-q"
+

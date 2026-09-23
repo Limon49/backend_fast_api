@@ -1,10 +1,19 @@
 # Things Docker doesn't need inside the image
 .venv
+env
 .uv-cache
 __pycache__
 *.pyc
+*.pyo
 .git
+.github
 .env
 README.md
 Dockerfile
 .dockerignore
+docker-compose.yml
+tests
+.pytest_cache
+*.db
+*.log
+.DS_Store
